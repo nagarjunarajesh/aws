@@ -1,0 +1,13 @@
+---
+- hosts: web
+  tasks:
+  - name: Ensure the httpd service is running
+    yum:
+     name: httpd
+     state: installed
+    become: true
+  - name: service
+    service:
+     name: httpd
+     state: started
+    become: true
