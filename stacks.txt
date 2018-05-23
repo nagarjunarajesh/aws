@@ -1,0 +1,27 @@
+import boto3
+import csv
+from botocore.exceptions import ClientError
+def list_stacks(account_details):
+  stacks = []
+  accountid = []
+  for credentials_list in assume_role_accnt(account_id_list):
+    cfn_client = boto3.client('cloudformation')
+   # response = cfn_client.describe_stacks()
+    paginator = cfn_client.get_paginator('describe_stacks')
+    response_iterator = paginator.paginate()
+    for response1 in response_iterator:
+     for stack in response1['Stacks']:
+      if stack['StackStatus'] == 'CREATE_COMPLETE' or 'UPDATE_COMPLETE' or 'DELETE_FAILED':
+        stacks.append((stack['StackName']))
+        accountname.append(account_details[credentials_list['account_id']])
+        x = (stack['StackId'])
+        arn=x.split(':',5)
+        accountid.append((arn[4])
+    stack_details=zip(stacks,accountid)
+    header = ['Stack','AccountId']  
+    csvfile = "output.csv"
+    with open(csvfile, "w") as output:
+        writer = csv.writer(output, lineterminator='\n')
+        writer.writerow(header)
+        writer.writerows(stack_details)
+list_stacks(account_details)

@@ -1,0 +1,33 @@
+import boto3
+import datetime
+import csv
+date = datetime.date.today()
+date
+datetime.date(2018, 04, 23)
+username = []
+eventtime = []
+
+#from botocore.exceptions import clienterror
+client = boto3.client('cloudtrail')
+paginator = client.get_paginator('lookup_events')
+response = paginator.paginate(
+    LookupAttributes=[
+        {
+            'AttributeKey': 'EventName',
+            'AttributeValue': 'ConsoleLogin'
+     },
+    ],
+    StartTime=datetime.datetime(2018,3,1),
+    EndTime=datetime.datetime.today(),
+   
+ #PaginationConfig={
+  # 'StartingToken': 'ConsoleLogin'
+   #}
+)
+#print(response)
+for res in response['Events']:
+#  for event in res:
+    print(res['EventName'])
+
+
+
